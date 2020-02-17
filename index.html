@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <title>ENC and DEC</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+</head>
+<body>
+                <h1 style="width: 600px; margin: 0 auto; margin-top: 5%;">ENCRYPTION AND DECRYPTION</h1>
+                <div style="width: 300px; margin: 0 auto; margin-top: 2%;">
+                    <label>Text</label>
+                    
+                    <div class="form-group">
+                        <input id="plainText" type="text">
+                    </div>
+                    <br>
+                        <div class="form-group">
+                                <select id="cryp">
+                                    <option>Encryption</option>
+                                    <option>Decryption</option>
+                                </select>
+                        </div>
+                    <br>
+                    <div class="form-group">
+                            <select id="choose">
+                                <option>Shift</option>
+                                <option>Vigenere</option>
+                                <option>PlayFair</option>
+                                <option>Substitution</option>
+                            </select>
+                    </div>
+                    
+                    <br>
+                    <label>KEY</label>
+                    <br>
+                    <span id="invalid"></span>
+                    <div class="form-group">
+                      
+                            <input id="select" type="text">
+                       
+                    </div>
+                    <br>
+                    <div class="form-group">        
+                        <input class="btn btn-success" id="submit" type="submit">
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <br>
+                        <p id="cypher"></p>
+               </div>
+   
+    <script src="index.js"></script>
+</body>
+</html>
