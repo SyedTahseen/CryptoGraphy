@@ -415,6 +415,66 @@ function checkMatrix(keyMatrix,temp,cryp)
      }
  }   
 }
+var random = new Array(plainText.length)
+function subsiEnc(plainText)
+{
+ var enc="" 
+     for(var i=0;i<plainText.length;i++)
+     {
+        
+         var temp = Math.floor(Math.random()*26)
+         random[i] = temp
+         var tem = alphabets.indexOf(plainText[i])
+         tem = tem + temp
+         tem = tem % 26
+         if(tem < 0)
+         {
+             tem+= 26
+         }
+         enc+= alphabets[tem]
+
+     }
+     document.getElementById("cypher").innerHTML = "Your Encrypted code is <strong> " + enc + " </strong>";     
+}
+
+function subsiDec(plainText)
+{
+    var dec=""
+    if(random == null)
+    {
+        for(var i=0;i<plainText.length;i++)
+     {
+        
+         var temp = Math.floor(Math.random()*26)
+         random[i] = temp
+         var tem = alphabets.indexOf(plainText[i])
+         tem = tem - temp
+         tem = tem % 26
+         if(tem < 0)
+         {
+             tem+= 26
+         }
+         dec+= alphabets[tem]
+
+     }
+    }
+    else
+    {
+        for(var i=0;i<plainText.length;i++)
+        {
+            var tem = alphabets.indexOf(plainText[i])
+            tem = tem - random[i]
+            tem = tem % 26
+            if(tem < 0)
+            {
+                tem+= 26
+            }
+            dec+= alphabets[tem]
+        }
+    }
+    document.getElementById("cypher").innerHTML = "Your decrypted code is <strong> " + dec + " </strong>";
+    
+}
 
 submit.addEventListener("click",function(e){
    var plainText = plaintext.value.toLowerCase();
@@ -472,10 +532,18 @@ submit.addEventListener("click",function(e){
                 document.getElementById("cypher").innerHTML = "";
         }
     }
-    // else if(choose.value == "Subsitution")
-    // {
-
-    // }
+     else if(choose.value == "Substitution")
+     {
+        if(cryp.value == "Encryption")
+        {
+           
+            subsiEnc(plainText)
+        }
+        else
+        {
+            subsiDec(plainText)
+        }
+    }
 });
 
 function keyValidForPlayFair(key){
@@ -488,4 +556,14 @@ function keyValidForPlayFair(key){
     }
     return true;
 
+}
+function disable(){
+    if(choose.value == "Substitution")
+    {
+        key.disabled = true;
+    }
+    else
+    {
+        key.disabled = false;
+    }
 }
