@@ -434,7 +434,7 @@ submit.addEventListener("click",function(e){
       }
       else
       {
-        invalid.innerHTML = "<strong> Invalid </strong> Your key should be in characters";
+        invalid.innerHTML = "<strong> Invalid </strong> Your key should be in numbers";
         document.getElementById("cypher").innerHTML = "";
       }
     }
@@ -460,10 +460,9 @@ submit.addEventListener("click",function(e){
         }
     }
     else if(choose.value == "PlayFair"){
-            if(key.value >= "a" && key.value <="z")
+            if(keyValidForPlayFair(key.value))
             {
                 invalid.innerHTML = "";
-           
                 playFairEnDe(plainText,key,cryp.value)
             }
         else
@@ -478,3 +477,15 @@ submit.addEventListener("click",function(e){
 
     // }
 });
+
+function keyValidForPlayFair(key){
+    for(var i=0;i<key.length;i++){
+        var num = alphabets.indexOf(key[i])
+        if(num == -1)
+        {
+          return false
+        }
+    }
+    return true;
+
+}
