@@ -561,9 +561,12 @@ function disable(){
     if(choose.value == "Substitution")
     {
         key.disabled = true;
+        invalid.innerHTML = "Random key will be generated";
+
     }
     else
     {
-        key.disabled = false;
+        key.disabled = false;  
+        invalid.innerHTML = "";
     }
 }
