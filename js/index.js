@@ -475,6 +475,76 @@ function subsiDec(plainText)
     document.getElementById("cypher").innerHTML = "Your decrypted code is <strong> " + dec + " </strong>";
     
 }
+var plainArr=""
+var col=0
+function RailFenceEn(plaintext,key)
+{
+    //console.log(plaintext + key)
+    putInArray(plaintext,key)
+    var enc="";
+    for(var i=0;i<key;i++)
+    {
+        for(var j=0;j<col;j++)
+        {
+            enc += plainArr[i][j]
+        }
+    }
+    console.log(enc)
+}
+
+function RailFenceDec(plaintext,key)
+{
+    console.log("here")
+ 
+  if(plainArr == "")
+  {
+     putInArray(plaintext,key)
+
+  }
+  var dec="";
+    for(var i=0;i<col;i++)
+    {
+        for(var j=0;j<key;j++)
+        {
+            if(plainArr[j][i] != "x")
+            {
+                dec += plainArr[j][i]
+            }
+            
+        }
+    }
+    console.log(dec)
+    plainArr=""
+
+}
+
+function putInArray(plaintext,key)
+{
+    plainArr = new Array(key)
+    col = Math.round((plaintext.length/key)+ .5)
+    for(var i=0;i<key;i++)
+    {
+        plainArr[i] = new Array(col)
+    }
+    var count = 0;
+    for(var i=0;i<col;i++)
+    {
+        for(var j=0;j<key;j++)
+        {
+            if(count != plaintext.length)
+            {
+                plainArr[j][i] = plaintext[count]
+                count++
+            }
+            else
+            {
+                plainArr[j][i] = 'x'
+            }
+
+        }
+    }
+
+}
 
 submit.addEventListener("click",function(e){
    var plainText = plaintext.value.toLowerCase();
@@ -543,6 +613,26 @@ submit.addEventListener("click",function(e){
         {
             subsiDec(plainText)
         }
+    }
+    else if(choose.value == "RailFence")
+    {
+        if(key.value >=1)
+        {
+            if(cryp.value == "Encryption")
+            {
+                RailFenceEn(plainText,key.value)
+            }
+            else
+            {
+                RailFenceDec(plainText,key.value)
+            }
+        }
+        else
+        {
+            invalid.innerHTML = "Your key is <strong> Invalid </strong>. key should be in numbers..";
+            document.getElementById("cypher").innerHTML = "";
+        }
+      
     }
 });
 
