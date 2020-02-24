@@ -489,12 +489,11 @@ function RailFenceEn(plaintext,key)
             enc += plainArr[i][j]
         }
     }
-    console.log(enc)
+    document.getElementById("cypher").innerHTML = "Your Encrypted  code is <strong> " + enc + " </strong>";
 }
 
 function RailFenceDec(plaintext,key)
 {
-    console.log("here")
  
   if(plainArr == "")
   {
@@ -513,7 +512,7 @@ function RailFenceDec(plaintext,key)
             
         }
     }
-    console.log(dec)
+    document.getElementById("cypher").innerHTML = "Your decrypted code is <strong> " + dec + " </strong>";
     plainArr=""
 
 }
