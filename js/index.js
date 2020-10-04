@@ -479,6 +479,7 @@ var plainArr=""
 var col=0
 function RailFenceEn(plaintext,key)
 {
+    console.log('here')
     //console.log(plaintext + key)
     var enc = putInArray(plaintext,key)
     
@@ -685,10 +686,12 @@ submit.addEventListener("click",function(e){
     }
     else if(choose.value == "RailFence")
     {
+        console.log('here')
         if(key.value >=1 && key.value != plainText.length && key.value < plainText.length)
         {
             if(cryp.value == "Encryption")
             {
+                console.log('here')
                 RailFenceEn(plainText,key.value)
             }
             else
