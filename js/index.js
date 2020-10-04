@@ -551,8 +551,11 @@ function RailFenceDec(plaintext,key)
         // find the next row using direction flag 
         dir_down?row++: row--; 
     } 
-    document.getElementById("cypher").innerHTML = "Your decrypted code is <strong> " + result + " </strong>";
-    plainArr=""
+    if(result != undefined){
+        document.getElementById("cypher").innerHTML = "Your decrypted code is <strong> " + result + " </strong>";
+        plainArr=""
+    }
+    
 
 }
 
