@@ -440,7 +440,7 @@ function subsiEnc(plainText)
 function subsiDec(plainText)
 {
     var dec=""
-    if(random == null)
+    if(random == "")
     {
         for(var i=0;i<plainText.length;i++)
      {
@@ -480,69 +480,136 @@ var col=0
 function RailFenceEn(plaintext,key)
 {
     //console.log(plaintext + key)
-    putInArray(plaintext,key)
-    var enc="";
-    for(var i=0;i<key;i++)
-    {
-        for(var j=0;j<col;j++)
-        {
-            enc += plainArr[i][j]
-        }
-    }
+    var enc = putInArray(plaintext,key)
+    
     document.getElementById("cypher").innerHTML = "Your Encrypted  code is <strong> " + enc + " </strong>";
 }
 
 function RailFenceDec(plaintext,key)
 {
  
-  if(plainArr == "")
-  {
-     putInArray(plaintext,key)
-
-  }
-  var dec="";
-    for(var i=0;i<col;i++)
-    {
-        for(var j=0;j<key;j++)
-        {
-            if(plainArr[j][i] != "x")
-            {
-                dec += plainArr[j][i]
-            }
-            
-        }
+    var str = plaintext.replace(/\s/g, '');
+    plaintext = str
+    
+    key = parseInt(key,10)
+    var rail = new Array(key);
+ 
+    
+    for (var i = 0; i < rail.length; i++) {
+      rail[i] = new Array(plaintext.length);
     }
-    document.getElementById("cypher").innerHTML = "Your decrypted code is <strong> " + dec + " </strong>";
+    for (var i=0; i < key; i++) 
+        for (var j=0; j < plaintext.length; j++) 
+            rail[i][j] = '\n'; 
+  
+    // to find the direction 
+    var dir_down; 
+  
+    var row = 0, col = 0; 
+  
+    // mark the places with '*' 
+    for (var i=0; i < plaintext.length; i++) 
+    { 
+        // check the direction of flow 
+        if (row == 0) 
+            dir_down = true; 
+        if (row == key-1) 
+            dir_down = false; 
+  
+        // place the marker 
+        rail[row][col++] = '*'; 
+  
+        // find the next row using direction flag 
+        dir_down?row++ : row--; 
+    } 
+  
+    // now we can construct the fill the rail matrix 
+    var index = 0; 
+    for (var i=0; i<key; i++) 
+        for (var j=0; j<plaintext.length; j++) 
+            if (rail[i][j] == '*' && index<plaintext.length) 
+                rail[i][j] = plaintext[index++]; 
+  
+  
+    // now read the matrix in zig-zag manner to construct 
+    // the resultant text 
+    var result=[]; 
+  
+    row = 0, col = 0; 
+    for (var i=0; i< plaintext.length; i++) 
+    { 
+        // check the direction of flow 
+        if (row == 0) 
+            dir_down = true; 
+        if (row == key-1) 
+            dir_down = false; 
+  
+        // place the marker 
+        if (rail[row][col] != '*') 
+            result.push(rail[row][col++]); 
+  
+        // find the next row using direction flag 
+        dir_down?row++: row--; 
+    } 
+    document.getElementById("cypher").innerHTML = "Your decrypted code is <strong> " + result + " </strong>";
     plainArr=""
 
 }
 
 function putInArray(plaintext,key)
 {
-    plainArr = new Array(key)
-    col = Math.round((plaintext.length/key)+ .5)
-    for(var i=0;i<key;i++)
-    {
-        plainArr[i] = new Array(col)
-    }
-    var count = 0;
-    for(var i=0;i<col;i++)
-    {
-        for(var j=0;j<key;j++)
-        {
-            if(count != plaintext.length)
-            {
-                plainArr[j][i] = plaintext[count]
-                count++
-            }
-            else
-            {
-                plainArr[j][i] = 'x'
-            }
-
-        }
+   
+    // col = Math.round((plaintext.length/key)+ .5)
+    var str = plaintext.replace(/\s/g, '');
+    plaintext = str
+    
+    key = parseInt(key,10)
+    var rail = new Array(key);
+ 
+    
+    for (var i = 0; i < rail.length; i++) {
+      rail[i] = new Array(plaintext.length);
     }
 
+    for (var i=0; i < key; i++) 
+        for (var j = 0; j < plaintext.length; j++) 
+            rail[i][j] = '\n'; 
+  
+    
+    var dir_down = false; 
+   var row = 0, col = 0; 
+  
+    for (var i=0; i < plaintext.length; i++) 
+    { 
+       
+        if (row == 0 || row == key-1) 
+            dir_down = !dir_down; 
+  
+     
+        rail[row][col++] = plaintext[i]; 
+  
+     
+        dir_down?row++ : row--; 
+    } 
+  
+    var result=[]; 
+    for (var i=0; i < key; i++) 
+        for (var j=0; j < plaintext.length; j++) 
+            if (rail[i][j]!='\n') 
+                result.push(rail[i][j]); 
+  
+    return result
+    
+}
+
+
+function transEnc(plainText,key)
+{
+    for(var i =0; i<plainText.length;i++)
+    {
+        transPlain[i]= new Array(plainText.length)
+    }
+    
 }
 
 submit.addEventListener("click",function(e){
@@ -615,7 +682,7 @@ submit.addEventListener("click",function(e){
     }
     else if(choose.value == "RailFence")
     {
-        if(key.value >=1)
+        if(key.value >=1 && key.value != plainText.length && key.value < plainText.length)
         {
             if(cryp.value == "Encryption")
             {
@@ -628,10 +695,31 @@ submit.addEventListener("click",function(e){
         }
         else
         {
-            invalid.innerHTML = "Your key is <strong> Invalid </strong>. key should be in numbers..";
+            invalid.innerHTML = "Your key is <strong> Invalid </strong>. key should be less than the plain text length";
             document.getElementById("cypher").innerHTML = "";
         }
       
+    }
+    else if(choose.value == "Transposition")
+    {
+        transPlain = new Array(plainText.length)
+        if(key.value >=0 && key.value <= plainText.length)
+        {
+            if(cryp.value == "Encryption")
+            {
+                transEnc(plainText,key.value)
+            }
+            else
+            {
+                transDec(plainText,key.value)
+            }
+        }
+        else
+      {
+        invalid.innerHTML = "<strong> Invalid </strong> Your key should not be greater then plain text";
+        document.getElementById("cypher").innerHTML = "";
+      }
+        
     }
 });
 
